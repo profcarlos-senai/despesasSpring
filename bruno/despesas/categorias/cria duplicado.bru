@@ -1,0 +1,17 @@
+meta {
+  name: cria duplicado
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseurl}}/{{path}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nome": "Coisinha"
+  }
+}
