@@ -1,6 +1,6 @@
 import { despesaService } from './services/despesaService.js';
+import {categoriaService} from './services/categoriaService.js';
 import { formatar } from './utils.js';
-import {categoriaService} from "./services/categoriaService";
 
 // atualizar a tabela assim que carregar o documento
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
 async function atualizarTabela() {
     try {
         const tabelaCorpo = document.getElementById('tabelaCorpo');
-        const despesas = await despesaService.listarTodas();
+        const selectCategoria = document.getElementById('select-categoria');
+
+        // 1. Busca os dados (Despesas e Categorias)
+        // Dica: Usar Promise.all ajuda se o service tiver métodos separados
+        const [despesas, categorias] = await Promise.all([
+            despesaService.listarTodas(),
+            categoriaService.listarTodas()
+        ]);
+
+        // 2. Preenche o Select de Categorias no Modal
+        selectCategoria.innerHTML = `
+            <option value="" selected disabled>Selecione uma categoria...</option>
+            ${categorias.map(c => `
+                <option value="${c.id}">${c.nome}</option>
+            `).join('')}
+        `;
+
+        // 3. Preenche a Tabela com os novos botões (Visualizar, Editar, Excluir)
         tabelaCorpo.innerHTML = despesas.map(d => `
             <tr>
                 <td>${formatar.dataBR(d.data)}</td>
@@ -27,16 +44,22 @@ async function atualizarTabela() {
                 <td><span class="badge bg-secondary">${d.categoria.nome}</span></td>
                 <td class="text-end">${formatar.moedaBR(d.valor)}</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-danger" onclick="window.excluirDespesa(${d.id})">
-                        Excluir
-                    </button>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-info" onclick="window.visualizarDespesa(${d.id})">
+                            Ver
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="window.editarDespesa(${d.id})">
+                            Editar
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="window.excluirDespesa(${d.id})">
+                            Excluir
+                        </button>
+                    </div>
                 </td>
             </tr>
         `).join('');
 
-        const categorias = await categoriaService.listarTodas();
-
     } catch (error) {
-        console.error("Erro ao atualizar tabela:", error);
+        console.error("Erro ao atualizar dados:", error);
     }
 }

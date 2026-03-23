@@ -9,8 +9,12 @@ export const formatar = {
      */
     dataBR: (dataSql) => {
         if (!dataSql) return '-';
-        const data = new Date(dataSql+"T00:00:00");
-        return data.toLocaleDateString('pt-BR');
+
+        // cria um objeto a partir da data
+        const dataObjeto = new Date(dataSql);
+
+        // retorna uma string a partir do objeto
+        return dataObjeto.toLocaleDateString('pt-BR');
     },
 
     /**

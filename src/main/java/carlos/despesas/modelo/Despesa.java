@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -27,7 +26,7 @@ public class Despesa {
     private BigDecimal valor;
 
     @NotNull(message = "Data é obrigatória")
-    private LocalDate data;
+    private java.sql.Date data;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false) // Cria a FK no banco
