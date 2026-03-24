@@ -2,17 +2,18 @@ import { despesaService } from './services/despesaService.js';
 import {categoriaService} from './services/categoriaService.js';
 import { formatar } from './utils.js';
 
+// navegador de meses
+const hoje = new Date();
+let anoAtual = hoje.getFullYear();
+let mesAtual = hoje.getMonth() + 1; // getMonth() vai de 0 a 11
+
 // atualizar a tabela assim que carregar o documento
 document.addEventListener("DOMContentLoaded", () => {
     atualizarTabela();
 
-    // 2. Tenta encontrar o botão
-    const btn = document.getElementById('btnAtualizar');
-
-    // 3. Só adiciona o evento se o botão realmente estiver na página
-    if (btn) {
-        btn.addEventListener('click', atualizarTabela);
-    }
+    // configura botões
+    document.getElementById('btnAtualizar')
+        .addEventListener('click', atualizarTabela);
 });
 
 // enche a tabela
@@ -24,7 +25,7 @@ async function atualizarTabela() {
         // 1. Busca os dados (Despesas e Categorias)
         // Dica: Usar Promise.all ajuda se o service tiver métodos separados
         const [despesas, categorias] = await Promise.all([
-            despesaService.listarTodas(),
+            despesaService.buscarPorAnoEMes(anoAtual, mesAtual),
             categoriaService.listarTodas()
         ]);
 
@@ -59,7 +60,43 @@ async function atualizarTabela() {
             </tr>
         `).join('');
 
+        atualizaTituloMes();
+
     } catch (error) {
         console.error("Erro ao atualizar dados:", error);
     }
 }
+
+function atualizaTituloMes(){
+    const titulo = document.getElementById('tituloMes');
+
+    const nomesMeses = [
+        "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+        "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
+    ];
+
+    titulo.textContent = `${nomesMeses[mesAtual - 1]} / ${anoAtual}`;
+}
+
+// navegador de meses
+window.mesAnterior = function () {
+    mesAtual--;
+
+    if (mesAtual < 1) {
+        mesAtual = 12;
+        anoAtual--;
+    }
+
+    atualizarTabela();
+};
+
+window.proximoMes = function () {
+    mesAtual++;
+
+    if (mesAtual > 12) {
+        mesAtual = 1;
+        anoAtual++;
+    }
+
+    atualizarTabela();
+};

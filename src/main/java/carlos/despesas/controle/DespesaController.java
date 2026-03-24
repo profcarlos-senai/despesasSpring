@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,27 @@ public class DespesaController {
         return repository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/mes")
+    public ResponseEntity<List<Despesa>> buscarPorMes(
+            @RequestParam int ano,
+            @RequestParam int mes) {
+
+        // validação básica
+        if (mes < 1 || mes > 12) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        YearMonth yearMonth = YearMonth.of(ano, mes);
+
+        Date inicio = Date.valueOf(yearMonth.atDay(1));
+        Date fim = Date.valueOf(yearMonth.atEndOfMonth());
+
+        List<Despesa> despesas = repository
+                .findByDataBetweenOrderByDataDesc(inicio, fim);
+
+        return ResponseEntity.ok(despesas);
     }
 
     @PostMapping

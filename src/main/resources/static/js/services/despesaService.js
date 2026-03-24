@@ -7,6 +7,8 @@ export const despesaService = {
 
     buscarPorId: (id) => api.request(`${BASE}/${id}`),
 
+    buscarPorAnoEMes: (anoAtual, mesAtual) => api.request(`${BASE}/mes?ano=${anoAtual}&mes=${mesAtual}`),
+
     salvar: (despesa) => api.request(BASE, {
         method: 'POST',
         body: JSON.stringify(despesa)
