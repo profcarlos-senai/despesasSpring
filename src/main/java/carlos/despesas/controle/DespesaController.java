@@ -17,7 +17,7 @@ public class DespesaController {
 
     @GetMapping
     public List<Despesa> listar() {
-        List<Despesa> lista = repository.findAll();
+        List<Despesa> lista = repository.findAllByOrderByDataDesc();
         return lista;
     }
 

@@ -4,6 +4,7 @@ import carlos.despesas.modelo.Categoria;
 import carlos.despesas.dados.CategoriaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,13 @@ public class CategoriaController {
     // Listar todas as categorias
     @GetMapping
     public List<Categoria> listar() {
-        return repository.findAll();
+        List<Categoria> lista = repository.findAll();
+        return lista;
+    }
+
+    @GetMapping("/banana/{quant}")
+    public String banana(@PathVariable int quant) {
+        return "banana".repeat(quant);
     }
 
     // Buscar uma categoria por ID
@@ -32,8 +39,14 @@ public class CategoriaController {
 
     // Criar nova categoria
     @PostMapping
-    public Categoria salvar(@Valid @RequestBody Categoria categoria) {
-        return repository.save(categoria);
+    public ResponseEntity<?> salvar(@Valid @RequestBody Categoria categoria) {
+        if (repository.existsByNome(categoria.getNome())) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT) // Ou .badRequest()
+                    .body("Já existe uma categoria com o nome \"" + categoria.getNome() + "\"");
+        }
+        categoria = repository.save(categoria); // salvei
+        return ResponseEntity.ok(categoria); // mandei de volta
     }
 
     // Atualizar categoria existente
