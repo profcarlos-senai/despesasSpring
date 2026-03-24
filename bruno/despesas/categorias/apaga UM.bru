@@ -1,11 +1,16 @@
 meta {
   name: apaga UM
   type: http
-  seq: 6
+  seq: 7
 }
 
 delete {
   url: {{baseurl}}/{{path}}/{{idNovo}}
   body: none
   auth: inherit
+}
+
+assert {
+  res.status: eq 204
+  res.body: isEmpty
 }

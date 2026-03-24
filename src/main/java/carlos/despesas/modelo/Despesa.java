@@ -29,7 +29,6 @@ public class Despesa {
     private java.sql.Date data;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false) // Cria a FK no banco
     @NotNull(message = "A categoria é obrigatória")
     private Categoria categoria;
 }

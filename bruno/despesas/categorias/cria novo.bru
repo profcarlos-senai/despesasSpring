@@ -1,7 +1,7 @@
 meta {
   name: cria novo
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
@@ -12,13 +12,19 @@ post {
 
 body:json {
   {
-    "nome": "Coisinha"
+    "nome": "Junk food"
   }
 }
 
+assert {
+  res.status: eq 200
+  res.body.nome: eq {{nomeNovo}}
+}
+
 script:post-response {
-  if (res.getStatus()>=200 && res.getStatus()<=300){
-    bru.setVar("idNovo",res.getBody().id);
+  if (res.status>=200 && res.status<300){
+    bru.setVar("idNovo",res.body.id);
+    bru.setVar("nomeNovo", res.body.nome)
   }
-  console.log("idnovo={idNovo}");
+  console.log('idnovo={{idNovo}}, idnome={{nomeNovo}}');
 }

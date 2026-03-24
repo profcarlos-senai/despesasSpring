@@ -1,11 +1,15 @@
 meta {
   name: pega o deletado
   type: http
-  seq: 7
+  seq: 8
 }
 
 get {
   url: {{baseurl}}/{{path}}/{{idNovo}}
   body: none
   auth: inherit
+}
+
+assert {
+  res.status: eq 404
 }

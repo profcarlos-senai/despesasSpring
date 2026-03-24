@@ -1,0 +1,23 @@
+meta {
+  name: cria em branco
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseurl}}/{{path}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nome": "     "
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.errors[0].field: eq "nome"
+  res.body.errors[0].defaultMessage: eq "Nome não pode ficar em branco"
+}

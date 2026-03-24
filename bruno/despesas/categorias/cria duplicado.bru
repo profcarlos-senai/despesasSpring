@@ -12,6 +12,11 @@ post {
 
 body:json {
   {
-    "nome": "Coisinha"
+    "nome": "{{nomeNovo}}"
   }
+}
+
+assert {
+  res.status: eq 409
+  res.body: eq 'Já existe uma categoria com o nome "{{nomeNovo}}"'
 }

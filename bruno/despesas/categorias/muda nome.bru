@@ -1,7 +1,7 @@
 meta {
   name: muda nome
   type: http
-  seq: 5
+  seq: 6
 }
 
 put {
@@ -13,6 +13,12 @@ put {
 body:json {
   {
     "id": {{idNovo}},
-    "nome": "ULTRA-secreto"
+    "nome": "Espetinho de gato"
   }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq {{idNovo}}
+  res.body.nome: eq "Espetinho de gato"
 }

@@ -7,8 +7,28 @@ const hoje = new Date();
 let anoAtual = hoje.getFullYear();
 let mesAtual = hoje.getMonth() + 1; // getMonth() vai de 0 a 11
 
+// pega o mês e o ano dos parâmetros da URL
+function pegaMesEAno(){
+    // se tiver mês e ano na URL, passa para as variáveis
+    const urlParams = new URLSearchParams(window.location.search);
+    // multiplica por 1 pra garantir que é um número
+    const mes = urlParams.get('mes')*1;
+    const ano = urlParams.get('ano')*1;
+
+    // se tiver algo errado cai fora
+    if(!Number.isInteger(ano)) return;
+    if(!Number.isInteger(mes)) return;
+    if(mes < 1 || mes > 12) return;
+
+    // se tá tudo certo, atualiza as globais
+    anoAtual = ano;
+    mesAtual = mes;
+    console.log(`mes: ${mesAtual}, ano: ${anoAtual}`);
+}
+
 // atualizar a tabela assim que carregar o documento
 document.addEventListener("DOMContentLoaded", () => {
+    pegaMesEAno();
     atualizarTabela();
 
     // configura botões
@@ -87,7 +107,7 @@ window.mesAnterior = function () {
         anoAtual--;
     }
 
-    atualizarTabela();
+    trocarMes(mesAtual, anoAtual);
 };
 
 window.proximoMes = function () {
@@ -98,5 +118,13 @@ window.proximoMes = function () {
         anoAtual++;
     }
 
-    atualizarTabela();
+    trocarMes(mesAtual, anoAtual);
 };
+
+function trocarMes(mes, ano){
+    // pega a url atual SEM os parâmetros mes e ano
+    const url = window.location.origin + window.location.pathname;
+
+    // muda para o proximo
+    window.location.href = `${url}?mes=${mes}&ano=${ano}`;
+}

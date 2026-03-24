@@ -1,11 +1,17 @@
 meta {
   name: pega uma
   type: http
-  seq: 2
+  seq: 3
 }
 
 get {
-  url: {{baseurl}}/{{path}}/1
+  url: {{baseurl}}/{{path}}/{{idNovo}}
   body: none
   auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq {{idNovo}}
+  res.body.nome: eq {{nomeNovo}}
 }
