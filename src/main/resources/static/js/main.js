@@ -122,9 +122,14 @@ window.proximoMes = function () {
 };
 
 function trocarMes(mes, ano){
-    // pega a url atual SEM os parâmetros mes e ano
-    const url = window.location.origin + window.location.pathname;
+    // Atualiza as variáveis globais
+    mesAtual = mes;
+    anoAtual = ano;
 
-    // muda para o proximo
-    window.location.href = `${url}?mes=${mes}&ano=${ano}`;
+    // Atualiza a URL sem recarregar a página
+    const novaUrl = `${window.location.pathname}?mes=${mes}&ano=${ano}`;
+    window.history.pushState({ path: novaUrl }, '', novaUrl);
+
+    // Chama a atualização dos dados
+    atualizarTabela();
 }
