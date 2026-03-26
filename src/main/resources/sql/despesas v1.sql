@@ -47,3 +47,15 @@ insert into despesa (descricao, valor, data, categoria_id) values
 ('Barzinho com colegas', 40.00, '2025-02-23', 6),
 ('Pendrive para trabalhos', 35.00, '2025-02-25', 7),
 ('Taxa bancária', 12.00, '2025-02-27', 10);
+
+INSERT INTO despesas (id, descricao, valor, data, categoria_id) VALUES
+(1, 'Aluguel do mês', 1200.00, '2026-03-01', 1),
+(2, 'Supermercado', 320.50, '2026-03-02', 2),
+(3, 'Uber e ônibus', 95.40, '2026-03-04', 3),
+(4, 'Internet residencial', 110.00, '2026-03-05', 4),
+(5, 'Plano de celular', 55.90, '2026-03-06', 5),
+(6, 'Cinema e lanche', 70.00, '2026-03-08', 6),
+(7, 'Material de estudo', 150.00, '2026-03-10', 7),
+(8, 'Farmácia', 85.75, '2026-03-12', 8),
+(9, 'Produtos de higiene', 60.30, '2026-03-15', 9),
+(10, 'Outros gastos', 40.00, '2026-03-20', 10);
