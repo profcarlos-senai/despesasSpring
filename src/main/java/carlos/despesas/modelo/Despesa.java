@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
@@ -32,9 +30,6 @@ public class Despesa {
     @ManyToOne
     @NotNull(message = "A categoria é obrigatória")
     private Categoria categoria;
-
-    @CreatedDate
-    Timestamp dataCadastro;
 
     public Integer getId() {
         return id;
@@ -74,13 +69,5 @@ public class Despesa {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public Timestamp getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Timestamp dataCadastro) {
-        this.dataCadastro = dataCadastro;
     }
 }
