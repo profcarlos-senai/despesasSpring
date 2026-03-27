@@ -1,18 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { routes } from './app.routes';
+import { AppComponent } from './app.component';
+import { routes } from './app.routes';  // ← Importar as rotas daqui
 
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrls: ['./app.scss'],
+bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes),       // habilita o router
+    provideRouter(routes),           // habilita o router
     provideHttpClient(withFetch())  // habilita HttpClient com fetch
   ]
-})
-export class App {}
+}).catch(err => console.error(err));

@@ -78,7 +78,7 @@ export class DespesasComponent implements OnInit {
   }
 
   editar(despesa: Despesa) {
-    this.editingId = despesa.id;
+    this.editingId = despesa.id ?? null;
     this.form = { ...despesa };
     this.showForm = true;
   }

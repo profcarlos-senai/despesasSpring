@@ -23,8 +23,10 @@
         <div class="form-group">
           <label>Categoria:</label>
           <select [(ngModel)]="form.categoria" name="categoria" required>
-            <option value="">Selecione uma categoria</option>
-            <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nome }}</option>
+            <option [ngValue]="null">Selecione uma categoria</option>
+            <option *ngFor="let cat of categorias" [ngValue]="cat">
+              {{ cat.nome }}
+            </option>
           </select>
         </div>
 
@@ -59,7 +61,7 @@
           <td>{{ despesa.id }}</td>
           <td>{{ despesa.descricao }}</td>
           <td>R$ {{ despesa.valor | number: '1.2-2' }}</td>
-          <td>{{ obterNomeCategoria(despesa.categoria) }}</td>
+          <td>{{ despesa.categoria.nome }}</td>
           <td>{{ despesa.data | date: 'dd/MM/yyyy' }}</td>
           <td class="actions">
             <button class="btn-edit" (click)="editar(despesa)">Editar</button>
