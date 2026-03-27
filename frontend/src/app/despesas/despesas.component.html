@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="header">
+    <h1>Gerenciamento de Despesas</h1>
+    <button class="btn-primary" (click)="abrirFormulario()">+ Nova Despesa</button>
+  </div>
+
+  <!-- Formulário -->
+  <div class="form-modal" *ngIf="showForm">
+    <div class="form-content">
+      <h2>{{ editingId ? 'Editar Despesa' : 'Nova Despesa' }}</h2>
+      
+      <form (ngSubmit)="salvar()">
+        <div class="form-group">
+          <label>Descrição:</label>
+          <input type="text" [(ngModel)]="form.descricao" name="descricao" required>
+        </div>
+
+        <div class="form-group">
+          <label>Valor:</label>
+          <input type="number" [(ngModel)]="form.valor" name="valor" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label>Categoria:</label>
+          <select [(ngModel)]="form.categoria" name="categoria" required>
+            <option value="">Selecione uma categoria</option>
+            <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nome }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Data:</label>
+          <input type="date" [(ngModel)]="form.data" name="data" required>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-success">Salvar</button>
+          <button type="button" class="btn-secondary" (click)="fecharFormulario()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tabela de Despesas -->
+  <div class="table-container">
+    <table *ngIf="despesas.length > 0; else semDados">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Categoria</th>
+          <th>Data</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let despesa of despesas">
+          <td>{{ despesa.id }}</td>
+          <td>{{ despesa.descricao }}</td>
+          <td>R$ {{ despesa.valor | number: '1.2-2' }}</td>
+          <td>{{ obterNomeCategoria(despesa.categoria) }}</td>
+          <td>{{ despesa.data | date: 'dd/MM/yyyy' }}</td>
+          <td class="actions">
+            <button class="btn-edit" (click)="editar(despesa)">Editar</button>
+            <button class="btn-delete" (click)="deletar(despesa.id)">Deletar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #semDados>
+      <p class="sem-dados">Nenhuma despesa cadastrada.</p>
+    </ng-template>
+  </div>
+</div>
