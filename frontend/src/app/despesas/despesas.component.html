@@ -8,7 +8,7 @@
   <div class="form-modal" *ngIf="showForm">
     <div class="form-content">
       <h2>{{ editingId ? 'Editar Despesa' : 'Nova Despesa' }}</h2>
-      
+
       <form (ngSubmit)="salvar()">
         <div class="form-group">
           <label>Descrição:</label>
@@ -63,7 +63,7 @@
           <td>{{ despesa.data | date: 'dd/MM/yyyy' }}</td>
           <td class="actions">
             <button class="btn-edit" (click)="editar(despesa)">Editar</button>
-            <button class="btn-delete" (click)="deletar(despesa.id)">Deletar</button>
+            <button class="btn-delete" (click)="despesa.id && deletar(despesa.id)">Deletar</button>
           </td>
         </tr>
       </tbody>
