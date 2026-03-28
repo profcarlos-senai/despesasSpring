@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { ApiDespesas } from '../../services/api.despesas';
+import { ApiCategorias } from '../../services/api.categorias';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Despesa } from '../models/despesa.model';
-import { Categoria } from '../models/categoria.model';
+import { Despesa } from '../../models/despesa.model';
+import { Categoria } from '../../models/categoria.model';
 
 @Component({
   selector: 'app-despesas',
@@ -27,21 +28,24 @@ export class DespesasComponent implements OnInit {
     data: ''
   };
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiDespesas: ApiDespesas,
+    private apiCategorias: ApiCategorias
+  ) {}
 
   ngOnInit(): void {
     this.getDespesas();
-    this.getDespesas();
+    this.getCategorias();
   }
 
   getCategorias() {
-    this.apiService.getCategorias().subscribe((data: Categoria[]) => {
+    this.apiCategorias.getCategorias().subscribe((data: Categoria[]) => {
       this.categorias = data;
     });
   }
 
   getDespesas() {
-    this.apiService.getDespesas().subscribe((data: Despesa[]) => {
+    this.apiDespesas.getDespesas().subscribe((data: Despesa[]) => {
       this.despesas = data;
     });
   }
@@ -63,13 +67,13 @@ export class DespesasComponent implements OnInit {
 
   salvar() {
     if (this.editingId) {
-      this.apiService.updateDespesa(this.editingId, this.form)
+      this.apiDespesas.updateDespesa(this.editingId, this.form)
         .subscribe(() => {
           this.getDespesas();
           this.fecharFormulario();
         });
     } else {
-      this.apiService.createDespesa(this.form)
+      this.apiDespesas.createDespesa(this.form)
         .subscribe((nova: Despesa) => {
           this.despesas.push(nova);
           this.fecharFormulario();
@@ -84,7 +88,7 @@ export class DespesasComponent implements OnInit {
   }
 
   deletar(id: number) {
-    this.apiService.deleteDespesa(id).subscribe(() => {
+    this.apiDespesas.deleteDespesa(id).subscribe(() => {
       this.despesas = this.despesas.filter(d => d.id !== id);
     });
   }

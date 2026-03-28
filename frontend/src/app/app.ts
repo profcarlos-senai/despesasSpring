@@ -1,12 +1,12 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { routes } from './app.routes';  // ← Importar as rotas daqui
+import { Component, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),           // habilita o router
-    provideHttpClient(withFetch())  // habilita HttpClient com fetch
-  ]
-}).catch(err => console.error(err));
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
+})
+export class App {
+  protected readonly title = signal('frontend');
+}
